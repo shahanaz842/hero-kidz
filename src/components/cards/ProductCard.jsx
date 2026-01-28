@@ -1,10 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
 import { FaStar, FaShoppingCart } from "react-icons/fa";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 const ProductCard = ({ product, onAddToCart }) => {
   if (!product) return null;
 
   const {
+    _id,
     title,
     image,
     price,
@@ -64,7 +67,7 @@ const ProductCard = ({ product, onAddToCart }) => {
           )}
         </div>
 
-        {/* Button */}
+        {/* Buttons */}
         <button
         //   onClick={() => onAddToCart(product)}
           className="btn btn-primary btn-sm mt-3 flex items-center gap-2"
@@ -72,6 +75,13 @@ const ProductCard = ({ product, onAddToCart }) => {
           <FaShoppingCart />
           Add to Cart
         </button>
+        <Link href={`/products/${_id}`}
+          className="btn btn-primary btn-outline btn-sm mt-3 flex items-center gap-2"
+        >
+          View Details
+          <FaArrowRightLong />
+          
+        </Link>
       </div>
     </div>
   );

@@ -24,6 +24,7 @@ const ProductSkeleton = () => {
 
                 {/* Button */}
                 <div className="skeleton h-9 w-full rounded-md"></div>
+                <div className="skeleton h-9 w-full rounded-md"></div>
             </div>
         </div>
     );

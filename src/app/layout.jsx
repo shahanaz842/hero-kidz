@@ -48,7 +48,7 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://yourdomain.com",
+    url: "https://hero-kidz-flax.vercel.app",
     siteName: "HeroKidz",
     title: "HeroKidz | Educational Toys for Smart Kids",
     description:

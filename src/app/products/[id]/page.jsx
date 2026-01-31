@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { FaStar, FaShoppingCart, FaCheckCircle } from "react-icons/fa";
 import { getSingleProduct } from "@/actions/server/product";
+import CartButton from "@/components/buttons/CartButton";
 
 export async function generateMetadata({ params }) {
     const { id } = await params;
@@ -119,10 +120,7 @@ const ProductDetails = async ({ params }) => {
                     </div>
 
                     {/* Add to Cart */}
-                    <button className="btn btn-primary w-full md:w-fit flex gap-2">
-                        <FaShoppingCart />
-                        Add to Cart
-                    </button>
+                    <CartButton product={product}></CartButton>
 
                     {/* Key Info */}
                     <div className="mt-6 space-y-2">

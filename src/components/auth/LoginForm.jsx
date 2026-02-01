@@ -26,9 +26,10 @@ export default function LoginForm() {
             callbackUrl: params.get("callbackUrl") || "",
         });
         if(!result.ok){
-            Swal.fire("error","Email password not matched", "error");
+            Swal.fire("error","Email password not matched. Try google login or register", "error");
         }else{
             Swal.fire("success","Welcome to Hero Kidz", "success");
+            router.push(callback);
         }
     }
 

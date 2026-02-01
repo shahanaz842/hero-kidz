@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaStar, FaShoppingCart } from "react-icons/fa";
 import { FaArrowRightLong } from "react-icons/fa6";
+import CartButton from "../buttons/CartButton";
 
 const ProductCard = ({ product, onAddToCart }) => {
   if (!product) return null;
@@ -68,13 +69,7 @@ const ProductCard = ({ product, onAddToCart }) => {
         </div>
 
         {/* Buttons */}
-        <button
-        //   onClick={() => onAddToCart(product)}
-          className="btn btn-primary btn-sm mt-3 flex items-center gap-2"
-        >
-          <FaShoppingCart />
-          Add to Cart
-        </button>
+        <CartButton product={{...product, _id: _id.toString()}}></CartButton>
         <Link href={`/products/${_id}`}
           className="btn btn-primary btn-outline btn-sm mt-3 flex items-center gap-2"
         >

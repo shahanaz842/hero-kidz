@@ -1,12 +1,14 @@
 "use client";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { FaGoogle } from 'react-icons/fa';
 import Swal from "sweetalert2";
+import SocialButton from "./SocialButton";
 
 export default function LoginForm() {
+    const params = useSearchParams();
+    const callback = params.get("callbackUrl") || "/";
     const router = useRouter();
     const [form, setForm] = useState({
         email: "",
@@ -21,13 +23,12 @@ export default function LoginForm() {
         const result = await signIn("credentials", {
             email: form.email,
             password: form.password,
-            redirect: false
+            callbackUrl: params.get("callbackUrl") || "",
         });
         if(!result.ok){
             Swal.fire("error","Email password not matched", "error");
         }else{
             Swal.fire("success","Welcome to Hero Kidz", "success");
-            router.push("/");
         }
     }
 
@@ -86,15 +87,12 @@ export default function LoginForm() {
                     <div className="divider">OR</div>
 
                     {/* Google Login */}
-                    <button className="btn btn-primary btn-outline w-full flex gap-2">
-                        <FaGoogle />
-                        Continue with Google
-                    </button>
+                   <SocialButton></SocialButton>
 
                     {/* Register Link */}
                     <p className="text-sm text-center mt-4">
                         New to the site?{" "}
-                        <Link href="/register" className="link link-primary">
+                        <Link href={`/register?callbackUrl=${callback}`} className="link link-primary">
                             Create an account
                         </Link>
                     </p>

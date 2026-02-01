@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
+import SocialButton from "./SocialButton";
 
 export default function RegisterForm() {
     const router = useRouter();
@@ -108,10 +109,7 @@ export default function RegisterForm() {
                     <div className="divider">OR</div>
 
                     {/* Google Register */}
-                    <button className="btn btn-outline w-full flex gap-2">
-                        <FaGoogle />
-                        Continue with Google
-                    </button>
+                    <SocialButton></SocialButton>
 
                     {/* Login Link */}
                     <p className="text-sm text-center mt-4">

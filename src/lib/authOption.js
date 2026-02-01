@@ -1,5 +1,6 @@
-import { loginUser } from "@/actions/server/auth"
-import CredentialsProvider from "next-auth/providers/credentials"
+import { loginUser } from "@/actions/server/auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions = {
   // Configure one or more authentication providers
@@ -18,7 +19,11 @@ export const authOptions = {
         
         return user;
       }
-    })
+    }),
+    GoogleProvider({
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET
+  })
     // ...add more providers here
   ],
 }

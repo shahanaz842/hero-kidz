@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth";
 import { clearCart, getCart } from "./cart";
 import { sendEmail } from "@/lib/sendEmail";
 import { orderInvoiceTemplate } from "@/lib/orderInvoice";
+import { ObjectId } from "mongodb";
 
 const { dbConnect, collections } = require("@/lib/dbConnect");
 
@@ -19,21 +20,27 @@ export const createOrder = async (payload) => {
         return { success: false };
     }
 
+    // const products = cart.map((item)=>({
+    //     _id: new ObjectId(cart.productId),
+    //     quantity: cart.quantity,
+    // }))
+
+    const totalPrice = cart.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+    );
+
     const newOrder = {
         createdAt: new Date().toISOString(),
         items: cart,
         ...payload,
+        totalPrice,
     };
 
     const result = await orderCollection.insertOne(newOrder);
     if (Boolean(result.insertedId)) {
         const result = await clearCart();
     }
-
-    const totalPrice = cart.reduce(
-        (sum, item) => sum + item.price * item.quantity,
-        0
-    );
 
     await sendEmail({
         to: user.email,

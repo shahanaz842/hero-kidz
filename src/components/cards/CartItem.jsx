@@ -1,16 +1,14 @@
 "use client";
 
-import { deleteItemsFromCart } from "@/actions/server/cart";
+import { decreaseItemDb, deleteItemsFromCart, increaseItemDb } from "@/actions/server/cart";
 import Image from "next/image";
+import { useState } from "react";
 import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 
-export default function CartItem({
-    item,
-    onIncrease,
-    onDecrease,
-}) {
+export default function CartItem({ item, removeItem, updateQuantity}) {
     const { image, title, quantity, price, _id } = item;
+    const [loading, setLoading] = useState(false);
 
     const handleDeleteCart = async () => {
         Swal.fire({
@@ -25,6 +23,9 @@ export default function CartItem({
             if (result.isConfirmed) {
                 const result = await deleteItemsFromCart(_id);
                 if (result.success) {
+
+                    removeItem(_id);
+
                     Swal.fire({
                         title: "Deleted!",
                         text: "Your file has been deleted.",
@@ -41,8 +42,27 @@ export default function CartItem({
         });
     }
 
+    const onIncrease = async ()=>{
+        setLoading(true);
+        const result = await increaseItemDb(_id, quantity);
+        if(result.success){
+            Swal.fire("success", "Quantity increased", "success")
+            updateQuantity(_id, quantity + 1);
+        }
+        setLoading(false);
+    }
+    const onDecrease = async ()=>{
+        setLoading(true);
+        const result = await decreaseItemDb(_id, quantity);
+        if(result.success){
+            Swal.fire("success", "Quantity decreased", "success")
+            updateQuantity(_id, quantity - 1);
+        }
+        setLoading(false);
+    }
+
     return (
-        <div className="card bg-base-100 shadow-sm border">
+        <div className="card bg-base-100 shadow-sm border border-gray-100 hover:shadow-md">
             <div className="card-body p-4">
                 <div className="flex gap-4 items-center">
                     {/* Image */}
@@ -70,7 +90,7 @@ export default function CartItem({
                         <div className="flex items-center gap-2 mt-2">
                             <button
                                 onClick={onDecrease}
-                                disabled={quantity <= 1}
+                                disabled={quantity <= 1 || loading}
                                 className="btn btn-xs btn-outline"
                             >
                                 <FaMinus />
@@ -82,6 +102,7 @@ export default function CartItem({
 
                             <button
                                 onClick={onIncrease}
+                                disabled={quantity >= 10 || loading}
                                 className="btn btn-xs btn-outline"
                             >
                                 <FaPlus />

@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 export default function CartSummary({ items, totalItems, totalPrice }) {
   return (
     <div className="card bg-base-100 shadow-md border border-gray-100 sticky top-24">
@@ -46,9 +48,13 @@ export default function CartSummary({ items, totalItems, totalPrice }) {
         </div>
 
         {/* Confirm Button */}
-        <button className="btn btn-primary w-full mt-5">
+        <Link 
+        href={"/checkout"} 
+        className="btn btn-primary w-full mt-5"
+        disabled={!items.length}
+        >
           Confirm Order
-        </button>
+        </Link>
       </div>
     </div>
   );
